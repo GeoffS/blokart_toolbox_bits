@@ -4,20 +4,20 @@ use <../OpenSCADdesigns/torus.scad>
 
 tapeWidth = 12.5;
 
-baseSolidZ = 2;
+baseSolidZ = 4;
 baseMagnetPocketZ = 1.7;
-baseemagnetPocketDia = 10.2;
-baseWrenchZ = 6;
+magnetPocketDia = 10.2;
+baseWrenchZ = 4.3;
 
-baseX = 80;
+baseX = 88.5;
 baseY = 3*tapeWidth;
 baseZ = baseSolidZ + baseMagnetPocketZ + baseWrenchZ;
-baseCornerDia = 10;
+baseCornerDia = 15;
 
 echo(str("baseY = ", baseY));
 
-bendRadius = 8.4;
-recessXY = 5.5;
+bendRadius = 8.5;
+recessXY = 5.8;
 
 recessInsetXY = 16;
 
@@ -35,13 +35,30 @@ module itemModule()
 
 		allenKeyRecess();
 		magnetsRecesses();
+		fingerRecess();
 	}
 }
 
+module fingerRecess()
+{
+	d = 35;
+	x = (magnetRecess1X + magnetRecess2X)/2;
+	cz = 2;
+	translate([x, 0, baseSolidZ-1 + d/2]) rotate([-90,0,0]) 
+	{
+		tcy([0,0,-10], d=d, h=100);
+		translate([0,0,baseY-d/2-cz]) cylinder(d1=0, d2=50, h=25);
+		translate([0,0,-25+d/2+cz]) cylinder(d2=0, d1=50, h=25);
+	}
+}
+
+magnetRecess1X = cx+bendRadius;
+magnetRecess2X = baseX - magnetPocketDia/2 - 5;
+
 module magnetsRecesses()
 {
-	magnetRecess(cx+bendRadius, cy+bendRadius);
-	magnetRecess(60, cy+bendRadius);
+	magnetRecess(magnetRecess1X, cy+bendRadius);
+	magnetRecess(magnetRecess2X, cy+bendRadius);
 	magnetRecess(cx-bendRadius, 10);
 }
 
@@ -49,8 +66,8 @@ module magnetRecess(x, y)
 {
 	translate([x, y, 0])
 	{
-		tcy([0, 0, baseSolidZ], d=baseemagnetPocketDia, h=100);
-		translate([0, 0, baseZ-baseemagnetPocketDia/2-1]) cylinder(d1=0, d2=20, h=10);
+		tcy([0, 0, baseSolidZ], d=magnetPocketDia, h=100);
+		translate([0, 0, baseZ-magnetPocketDia/2-1]) cylinder(d1=0, d2=20, h=10);
 	}
 	
 }
