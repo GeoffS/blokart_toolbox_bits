@@ -34,7 +34,7 @@ module allenKeyRecess()
 	cx = 14 + recessRadius;
 	cy = baseY - 14 - recessRadius;
 
-	recessOffsetZ = recessXY/2+baseSolidZ;
+	recessOffsetZ = recessXY/2+baseMagnetPocketZ+baseSolidZ;
 
 	// The corner:
 	difference()
