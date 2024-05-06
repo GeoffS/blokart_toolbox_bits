@@ -116,11 +116,12 @@ module tcyz(t, d, h, cz)
 
 module clip(d=0)
 {
-	//tc([-200, -400-d, -10], 400);
+	// tcu([-20, -400+baseY-recessInsetXY+recessXY, -20], 400);
 }
 
 if(developmentRender)
 {
+	// display() translate([-22.5,nothing,0]) itemModule();
 	display() itemModule();
 }
 else
