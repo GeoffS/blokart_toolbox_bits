@@ -34,10 +34,12 @@ module allenKeyRecess()
 	cx = 14 + recessRadius;
 	cy = baseY - 14 - recessRadius;
 
+	recessOffsetZ = recessXY/2+baseSolidZ;
+
 	// The corner:
 	difference()
 	{
-		translate([cx, cy, baseSolidZ + recessXY])
+		translate([cx, cy, recessOffsetZ])
 		{
 			torus2a(radius=recessRadius, translation=bendRadius);
 			difference()
@@ -51,7 +53,7 @@ module allenKeyRecess()
 	}
 
 	// The long leg:
-	translate([cx, cy+bendRadius, baseSolidZ + recessXY])
+	translate([cx, cy+bendRadius, recessOffsetZ])
 	{
 		rotate([0,90,0]) hull()
 		{
@@ -61,7 +63,7 @@ module allenKeyRecess()
 	}
 
 	// The short leg:
-	translate([cx-bendRadius, cy, baseSolidZ + recessXY])
+	translate([cx-bendRadius, cy, recessOffsetZ])
 	{
 		rotate([90,0,0]) hull()
 		{
