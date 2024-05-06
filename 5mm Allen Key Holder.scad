@@ -57,6 +57,16 @@ module allenKeyRecess()
 			tcy([-100,0,0], d=recessXY, h=100);
 		}
 	}
+
+	// The short leg:
+	translate([cx-bendRadius, cy, baseSolidZ + recessXY])
+	{
+		rotate([90,0,0]) hull()
+		{
+			tcy([0,0,0], d=recessXY, h=100);
+			tcy([0,100,0], d=recessXY, h=100);
+		}
+	}
 }
 
 module roundedCornerCubeChamfered(dim, dia, cz)
