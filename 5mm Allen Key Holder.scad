@@ -6,6 +6,7 @@ tapeWidth = 12.5;
 
 baseSolidZ = 2;
 baseMagnetPocketZ = 1.7;
+baseemagnetPocketDia = 10.2;
 baseWrenchZ = 6;
 
 baseX = 80;
@@ -15,6 +16,17 @@ baseCornerDia = 10;
 
 echo(str("baseY = ", baseY));
 
+bendRadius = 8.4;
+recessXY = 5.5;
+
+recessInsetXY = 16;
+
+recessRadius = recessXY / 2;
+cx = recessInsetXY + recessRadius;
+cy = baseY - recessInsetXY - recessRadius;
+
+recessOffsetZ = recessXY/2+baseMagnetPocketZ+baseSolidZ;
+
 module itemModule()
 {
 	difference()
@@ -22,20 +34,29 @@ module itemModule()
 		roundedCornerCubeChamfered(dim = [baseX, baseY, baseZ], dia = baseCornerDia, cz = 2);
 
 		allenKeyRecess();
+		magnetsRecesses();
 	}
+}
+
+module magnetsRecesses()
+{
+	magnetRecess(cx+bendRadius, cy+bendRadius);
+	magnetRecess(60, cy+bendRadius);
+	magnetRecess(cx-bendRadius, 10);
+}
+
+module magnetRecess(x, y)
+{
+	translate([x, y, 0])
+	{
+		tcy([0, 0, baseSolidZ], d=baseemagnetPocketDia, h=100);
+		translate([0, 0, baseZ-baseemagnetPocketDia/2-1]) cylinder(d1=0, d2=20, h=10);
+	}
+	
 }
 
 module allenKeyRecess()
 {
-	bendRadius = 8.4;
-	recessXY = 5.5;
-
-	recessRadius = recessXY / 2;
-	cx = 14 + recessRadius;
-	cy = baseY - 14 - recessRadius;
-
-	recessOffsetZ = recessXY/2+baseMagnetPocketZ+baseSolidZ;
-
 	// The corner:
 	difference()
 	{
