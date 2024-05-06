@@ -28,20 +28,33 @@ module itemModule()
 module allenKeyRecess()
 {
 	bendRadius = 8.4;
-	recessXY = 5.5/2;
-	cx = 14 + recessXY;
-	cy = baseY - 14 - recessXY;
+	recessXY = 5.5;
 
+	recessRadius = recessXY / 2;
+	cx = 14 + recessRadius;
+	cy = baseY - 14 - recessRadius;
+
+	// The corner:
 	difference()
 	{
 		translate([cx, cy, baseSolidZ + recessXY])
 		{
-			torus2a(radius=recessXY, translation=bendRadius);
+			torus2a(radius=recessRadius, translation=bendRadius);
 			difference()
 			{
-				tcy([0,0,0], d=(bendRadius+recessXY)*2, h=100);
-				tcy([0,0,-20], d=(bendRadius-recessXY)*2, h=120);
+				tcy([0,0,0], d=(bendRadius+recessRadius)*2, h=100);
+				tcy([0,0,-20], d=(bendRadius-recessRadius)*2, h=120);
 			}
+		}
+	}
+
+	// The long leg:
+	translate([cx, cy+bendRadius, baseSolidZ + recessXY])
+	{
+		rotate([0,90,0]) hull()
+		{
+			tcy([0,0,0], d=recessXY, h=100);
+			tcy([-100,0,0], d=recessXY, h=100);
 		}
 	}
 }
