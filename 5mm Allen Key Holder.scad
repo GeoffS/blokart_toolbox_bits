@@ -46,6 +46,8 @@ module allenKeyRecess()
 				tcy([0,0,-20], d=(bendRadius-recessRadius)*2, h=120);
 			}
 		}
+		tcu([        -200, cy-400-nothing, -200], 400);
+		tcu([  cx+nothing,           -200, -200], 400);
 	}
 
 	// The long leg:
