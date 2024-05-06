@@ -25,6 +25,8 @@ recessRadius = recessXY / 2;
 cx = recessInsetXY + recessRadius;
 cy = baseY - recessInsetXY - recessRadius;
 
+echo(str("cx = ", cx));
+
 recessOffsetZ = recessXY/2+baseMagnetPocketZ+baseSolidZ;
 
 module itemModule()
@@ -53,7 +55,7 @@ module fingerRecess()
 }
 
 magnetRecess1X = cx+bendRadius;
-magnetRecess2X = baseX - magnetPocketDia/2 - 5;
+magnetRecess2X = baseX - 9.8;
 
 module magnetsRecesses()
 {
@@ -101,6 +103,7 @@ module allenKeyRecess()
 	}
 
 	// The short leg:
+	echo(str("cx-bendRadius = ", cx-bendRadius));
 	translate([cx-bendRadius, cy, recessOffsetZ])
 	{
 		rotate([90,0,0]) hull()
