@@ -1,5 +1,6 @@
 include <../OpenSCADdesigns/MakeInclude.scad>
 include <../OpenSCADdesigns/chamferedCylinders.scad>
+use <../OpenSCADdesigns/torus.scad>
 
 tapeWidth = 12.5;
 
@@ -18,14 +19,32 @@ module itemModule()
 {
 	difference()
 	{
-		union()
-		{
-			roundedCornerCubeChamfered(dim = [baseX, baseY, baseZ], dia = baseCornerDia, cz = 2);
-		}
+		roundedCornerCubeChamfered(dim = [baseX, baseY, baseZ], dia = baseCornerDia, cz = 2);
+
+		allenKeyRecess();
 	}
 }
 
+module allenKeyRecess()
+{
+	bendRadius = 8.4;
+	recessXY = 5.5/2;
+	cx = 14 + recessXY;
+	cy = baseY - 14 - recessXY;
 
+	difference()
+	{
+		translate([cx, cy, baseSolidZ + recessXY])
+		{
+			torus2a(radius=recessXY, translation=bendRadius);
+			difference()
+			{
+				tcy([0,0,0], d=(bendRadius+recessXY)*2, h=100);
+				tcy([0,0,-20], d=(bendRadius-recessXY)*2, h=120);
+			}
+		}
+	}
+}
 
 module roundedCornerCubeChamfered(dim, dia, cz)
 {
