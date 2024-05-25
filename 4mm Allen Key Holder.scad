@@ -7,7 +7,7 @@ tapeWidth = 12.5;
 baseSolidZ = 4;
 baseMagnetPocketZ = 1.7;
 magnetPocketDia = 10.2;
-baseWrenchZ = 4.3;
+baseWrenchZ = 3.6;
 
 baseX = 88.5;
 baseY = 3*tapeWidth;
@@ -16,8 +16,8 @@ baseCornerDia = 15;
 
 echo(str("baseY = ", baseY));
 
-bendRadius = 8.5;
-recessXY = 5.8;
+bendRadius = 6.5;
+recessXY = 4.8;
 
 recessInsetXY = 16;
 
@@ -27,7 +27,8 @@ cy = baseY - recessInsetXY - recessRadius;
 
 echo(str("cx = ", cx));
 
-recessOffsetZ = recessXY/2+baseMagnetPocketZ+baseSolidZ;
+recessOffsetZ = recessXY/2 + baseMagnetPocketZ + baseSolidZ;
+echo(str("recessOffsetZ = ", recessOffsetZ));
 
 module itemModule()
 {
@@ -69,7 +70,11 @@ module magnetRecess(x, y)
 	translate([x, y, 0])
 	{
 		tcy([0, 0, baseSolidZ], d=magnetPocketDia, h=100);
-		translate([0, 0, baseZ-magnetPocketDia/2-1]) cylinder(d1=0, d2=20, h=10);
+		difference()
+		{
+			translate([0, 0, baseZ-magnetPocketDia/2-1]) cylinder(d1=0, d2=20, h=10);
+			cylinder(d=20, h=baseSolidZ+1);
+		}
 	}
 	
 }
@@ -136,7 +141,7 @@ module tcyz(t, d, h, cz)
 
 module clip(d=0)
 {
-	// tcu([-20, -400+baseY-recessInsetXY+recessXY, -20], 400);
+	tcu([-20, -400+baseY-recessInsetXY+recessXY, -20], 400);
 }
 
 if(developmentRender)
