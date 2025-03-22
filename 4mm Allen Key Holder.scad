@@ -7,7 +7,7 @@ tapeWidth = 12.5;
 baseSolidZ = 4;
 baseMagnetPocketZ = 1.7;
 magnetPocketDia = 10.2;
-baseWrenchZ = 3.6;
+baseWrenchZ = 3.8;
 
 baseX = 88.5;
 baseY = 3*tapeWidth;
@@ -44,10 +44,10 @@ module itemModule()
 
 module fingerRecess()
 {
-	d = 35;
-	x = (magnetRecess1X + magnetRecess2X)/2;
+	d = 20;
+	x = (magnetRecess3X + magnetRecess4X)/2;
 	cz = 2;
-	translate([x, 0, baseSolidZ-1 + d/2]) rotate([-90,0,0]) 
+	translate([x, 0, baseSolidZ-0 + d/2]) rotate([-90,0,0]) 
 	{
 		tcy([0,0,-10], d=d, h=100);
 		translate([0,0,baseY-d/2-cz]) cylinder(d1=0, d2=50, h=25);
@@ -55,28 +55,36 @@ module fingerRecess()
 	}
 }
 
-magnetRecess1X = cx+bendRadius;
-magnetRecess2X = baseX - 9.8;
+dx = magnetPocketDia + 2;
+magnetRecess1X = cx+bendRadius + 0.5;
+magnetRecess2X = baseX - 8;
+magnetRecess3X = magnetRecess1X + dx; //cx+bendRadius + 14;
+magnetRecess4X = magnetRecess2X - dx; //baseX - 20;
 
 module magnetsRecesses()
 {
 	magnetRecess(magnetRecess1X, cy+bendRadius);
 	magnetRecess(magnetRecess2X, cy+bendRadius);
-	magnetRecess(cx-bendRadius, 10);
+	magnetRecess(magnetRecess3X, cy+bendRadius);
+	magnetRecess(magnetRecess4X, cy+bendRadius);
+	magnetRecess(cx-bendRadius, 9);
+
+	translate([cx, cy, 0]) rotate([0,0,45]) translate([0,bendRadius,0]) magnetRecessCore();
 }
 
 module magnetRecess(x, y)
 {
-	translate([x, y, 0])
+	translate([x, y, 0]) magnetRecessCore();
+}
+
+module magnetRecessCore()
+{
+	tcy([0, 0, baseSolidZ], d=magnetPocketDia, h=100);
+	difference()
 	{
-		tcy([0, 0, baseSolidZ], d=magnetPocketDia, h=100);
-		difference()
-		{
-			translate([0, 0, baseZ-magnetPocketDia/2-1]) cylinder(d1=0, d2=20, h=10);
-			cylinder(d=20, h=baseSolidZ+1);
-		}
+		translate([0, 0, baseZ-magnetPocketDia/2-0.6]) cylinder(d1=0, d2=20, h=10);
+		cylinder(d=20, h=baseSolidZ+1);
 	}
-	
 }
 
 module allenKeyRecess()
@@ -141,7 +149,7 @@ module tcyz(t, d, h, cz)
 
 module clip(d=0)
 {
-	tcu([-20, -400+baseY-recessInsetXY+recessXY, -20], 400);
+	// tcu([-20, -400+baseY-recessInsetXY+recessXY, -20], 400);
 }
 
 if(developmentRender)
