@@ -43,7 +43,7 @@ module itemModule()
 
 module fingerRecess()
 {
-	d = 35;
+	d = 20;
 	x = (magnetRecess1X + magnetRecess2X)/2;
 	cz = 2;
 	translate([x, 0, baseSolidZ-1 + d/2]) rotate([-90,0,0]) 
@@ -54,24 +54,36 @@ module fingerRecess()
 	}
 }
 
-magnetRecess1X = cx+bendRadius;
-magnetRecess2X = baseX - 9.8;
+dx = magnetPocketDia + 1.5;
+magnetRecess1X = cx+bendRadius - 1.5;
+magnetRecess2X = baseX - 8;
+magnetRecess3X = magnetRecess1X + dx; //cx+bendRadius + 14;
+magnetRecess4X = magnetRecess2X - dx; //baseX - 20;
 
 module magnetsRecesses()
 {
 	magnetRecess(magnetRecess1X, cy+bendRadius);
 	magnetRecess(magnetRecess2X, cy+bendRadius);
-	magnetRecess(cx-bendRadius, 10);
+	magnetRecess(magnetRecess3X, cy+bendRadius);
+	magnetRecess(magnetRecess4X, cy+bendRadius);
+	magnetRecess(cx-bendRadius, 9);
+
+	translate([cx, cy, 0]) rotate([0,0,45]) translate([0,bendRadius,0]) magnetRecessCore();
 }
 
 module magnetRecess(x, y)
 {
-	translate([x, y, 0])
+	translate([x, y, 0]) magnetRecessCore();
+}
+
+module magnetRecessCore()
+{
+	tcy([0, 0, baseSolidZ], d=magnetPocketDia, h=100);
+	difference()
 	{
-		tcy([0, 0, baseSolidZ], d=magnetPocketDia, h=100);
-		translate([0, 0, baseZ-magnetPocketDia/2-1]) cylinder(d1=0, d2=20, h=10);
+		translate([0, 0, baseZ-magnetPocketDia/2-0.6]) cylinder(d1=0, d2=20, h=10);
+		cylinder(d=20, h=baseSolidZ+1);
 	}
-	
 }
 
 module allenKeyRecess()
